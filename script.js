@@ -1,18 +1,23 @@
-// Smooth scroll to section
-$(document).on('click', 'a[href^="#"]', function(event) {
-  event.preventDefault();
-  var target = $($.attr(this, 'href'));
-  $('html, body').animate({
-    scrollTop: target.offset().top - 50 // add a small offset to account for padding or margins
-  }, 500, 'swing'); // add a easing effect to make the animation smoother
+// Add event listener to button
+document.querySelector("button").addEventListener("click", function() {
+  // Add class to section
+  document.querySelector("#about").classList.add("active");
 });
 
-// Gallery lightbox
-$('.gallery-item').click(function() {
-  var image = $(this).find('img').attr('src');
-  var lightbox = $('<div class="lightbox"><img src="' + image + '"></div>');
-  lightbox.appendTo('body'); // use appendTo instead of append for better performance
-  lightbox.on('click', function() {
-    $(this).remove();
-  });
+// Add event listener to form
+document.querySelector("form").addEventListener("submit", function(event) {
+  // Prevent default form submission
+  event.preventDefault();
+  
+  // Get form data
+  const formData = new FormData(this);
+  
+  // Send form data to server
+  fetch("/submit", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
 });
